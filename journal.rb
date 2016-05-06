@@ -2,7 +2,7 @@
 require 'ostruct'
 require 'sqlite3'
 
-DEFAULT_SQLITE_DB_PATH = "journal.sqlite3.db"
+DEFAULT_SQLITE_DB_PATH = "journal.sqlite.db"
 
 class String
   # Easy colorization
