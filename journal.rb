@@ -125,6 +125,21 @@ DB_TABLE
     end
   end
 
+  LIST_LOGS = "SELECT name, duration, reason FROM Logs"
+  def list_logs
+    begin
+      list = []
+      @db.execute(LIST_LOGS) do |log|
+        list << {name: log[0], duration: log[1], reason: log[2]}
+      end
+      return list
+    rescue Exception => e
+      puts "Cannot get list of logs...".red
+      puts e.message.red
+      puts "#{e.backtrace.join("\n")}".red
+    end
+  end
+
   INSERT_LOGS = "INSERT INTO LOGS(name, duration, reason) VALUES"
   def insert_log(name, duration, reason)
     begin
