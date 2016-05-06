@@ -1,4 +1,5 @@
 #!/usr/bin/ruby
+require 'ostruct'
 
 class String
   # Easy colorization
@@ -39,3 +40,39 @@ class String
     colorize(COLORS[:light_blue])
   end
 end
+
+
+class OptionParser
+  # Simple option parser. No need to use any utiltity class at this point
+  
+  def self.parse(args)
+    options = OpenStruct.new
+    switch  = ARGV.shift
+    case switch
+    when "log"
+      options.switch = "log"
+    when "list"
+      options.switch = "list"
+    when "total"
+      options.switch = "total"
+    when "hitlist"
+      options.switch = "hitlist"
+    else
+      help = <<HELP
+Usage: journal.rb [log|list|total|hitlist]
+
+Commands:
+log [NAME] [DURATION] [REASON] \t Logs the entry in the database
+list \t\t\t\t Lists all the log entries
+total \t\t\t\t Total interuptions in minutes
+hitlist \t\t\t List of all interuptions by name
+HELP
+    puts help.yellow
+    end
+
+    options
+  end
+
+end
+
+options = OptionParser.parse(ARGV)
