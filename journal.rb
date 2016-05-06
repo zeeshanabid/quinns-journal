@@ -96,6 +96,8 @@ class Database
 
     begin
       db.db = SQLite3::Database.new( db_path )
+      db.db.execute(CREATE_LOGS_TABLE)
+      db.create_table
     rescue Exception => e
       puts "Cannot create/load #{db_path}...".red
       puts e.message.red
@@ -103,6 +105,26 @@ class Database
     end
     return db
   end
+
+  CREATE_LOGS_TABLE = <<DB_TABLE
+  CREATE TABLE IF NOT EXISTS Logs(
+    id INTEGER PRIMARY KEY UNIQUE,
+    name VARCHAR(20) NOT NULL,
+    duration INTEGER NOT NULL default '0',
+    reason TEXT
+  )
+DB_TABLE
+
+  def create_table
+    begin
+      @db.execute(CREATE_LOGS_TABLE)
+    rescue Exception => e
+      puts "Cannot create Logs table...".red
+      puts e.message.red
+      puts "#{e.backtrace.join("\n")}".red
+    end
+  end
+
 end
 
 options = OptionParser.parse(ARGV)
