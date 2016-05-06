@@ -72,8 +72,10 @@ HELP
     puts help.strip.yellow
     end
 
-    db_path = ARGV.shift || DEFAULT_SQLITE_DB_PATH
-    options.db_path = db_path
+    if options.switch
+      db_path = ARGV.shift || DEFAULT_SQLITE_DB_PATH
+      options.db_path = db_path
+    end
 
     options
   end
