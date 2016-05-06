@@ -125,6 +125,17 @@ DB_TABLE
     end
   end
 
+  INSERT_LOGS = "INSERT INTO LOGS(name, duration, reason) VALUES"
+  def insert_log(name, duration, reason)
+    begin
+      @db.execute(INSERT_LOGS + " (?, ?, ?)", name, duration, reason)
+    rescue Exception => e
+      puts "Cannot insert logs into database...".red
+      puts e.message.red
+      puts "#{e.backtrace.join("\n")}".red
+    end
+  end
+
 end
 
 options = OptionParser.parse(ARGV)
