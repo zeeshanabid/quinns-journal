@@ -72,40 +72,36 @@ list \t\t\t\t Lists all the log entries
 total \t\t\t\t Total interuptions in minutes
 hitlist \t\t\t List of all interuptions by name
 HELP
-    puts help.strip.yellow
+      puts help.strip.light_blue
     end
 
-    if options.switch
-      db_path = ARGV.shift || DEFAULT_SQLITE_DB_PATH
-      options.db_path = db_path
-    end
-
+    options.db_path = ARGV.shift || DEFAULT_SQLITE_DB_PATH if options.switch
     options
   end
 
 end
 
+
 class Database
   attr_accessor :db
 
   def self.create(db_path)
-    db = Database.new
     if File.exists?(db_path)
       puts "Using #{db_path}...".yellow
     else
       puts "Creating database #{db_path}...".green
     end
 
+    db = Database.new
     begin
-      db.db = SQLite3::Database.new( db_path )
-      db.db.execute(CREATE_LOGS_TABLE)
+      db.db = SQLite3::Database.new(db_path)
       db.create_table
     rescue Exception => e
       puts "Cannot create/load #{db_path}...".red
       puts e.message.red
       puts "#{e.backtrace.join("\n")}".red
     end
-    return db
+    db
   end
 
   CREATE_LOGS_TABLE = <<DB_TABLE
