@@ -151,6 +151,18 @@ DB_TABLE
     end
   end
 
+  TOTAL_LOGS = "SELECT SUM(duration) AS total from Logs"
+  def total_duration
+    begin
+      total = @db.get_first_value(TOTAL_LOGS)
+      return total
+    rescue Exception => e
+      puts "Cannot get total logs from database...".red
+      puts e.message.red
+      puts "#{e.backtrace.join("\n")}".red
+    end
+  end
+
 end
 
 options = OptionParser.parse(ARGV)
