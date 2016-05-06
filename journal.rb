@@ -1,5 +1,8 @@
 #!/usr/bin/ruby
 require 'ostruct'
+require 'sqlite3'
+
+DEFAULT_SQLITE_DB_PATH = "journal.sqlite3.db"
 
 class String
   # Easy colorization
@@ -68,6 +71,9 @@ hitlist \t\t\t List of all interuptions by name
 HELP
     puts help.yellow
     end
+
+    db_path = ARGV.shift || DEFAULT_SQLITE_DB_PATH
+    options.db_path = db_path
 
     options
   end
