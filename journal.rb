@@ -52,7 +52,10 @@ class OptionParser
     switch  = ARGV.shift
     case switch
     when "log"
-      options.switch = "log"
+      options.switch   = "log"
+      options.name     = ARGV.shift.downcase.strip
+      options.duration = ARGV.shift
+      options.reason   = ARGV.shift
     when "list"
       options.switch = "list"
     when "total"
@@ -180,4 +183,19 @@ DB_TABLE
 end
 
 options = OptionParser.parse(ARGV)
-db      = Database.create(options.db_path)
+db      = Database.create(options.db_path) if options.db_path
+
+case options.switch
+when "log"
+  db.insert_log(options.name, options.duration, options.reason)
+when "list"
+  db.list_logs.each do |log|
+    puts "#{log[:name]}\t\t#{log[:duration]}\t#{log[:reason]}"
+  end
+when "total"
+  puts db.total_duration
+when "hitlist"
+  db.hitlist.each do |log|
+    puts "#{log[:name]}\t\t#{log[:duration]}"
+  end
+end
