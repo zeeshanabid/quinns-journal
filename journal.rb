@@ -69,7 +69,7 @@ list \t\t\t\t Lists all the log entries
 total \t\t\t\t Total interuptions in minutes
 hitlist \t\t\t List of all interuptions by name
 HELP
-    puts help.yellow
+    puts help.strip.yellow
     end
 
     db_path = ARGV.shift || DEFAULT_SQLITE_DB_PATH
