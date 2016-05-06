@@ -85,9 +85,6 @@ end
 class Database
   attr_accessor :db
 
-  def initialize
-  end
-
   def self.create(db_path)
     db = Database.new
     if File.exists?(db_path)
