@@ -80,4 +80,30 @@ HELP
 
 end
 
+class Database
+  attr_accessor :db
+
+  def initialize
+  end
+
+  def self.create(db_path)
+    db = Database.new
+    if File.exists?(db_path)
+      puts "Using #{db_path}...".yellow
+    else
+      puts "Creating database #{db_path}...".green
+    end
+
+    begin
+      db.db = SQLite3::Database.new( db_path )
+    rescue Exception => e
+      puts "Cannot create/load #{db_path}...".red
+      puts e.message.red
+      puts "#{e.backtrace.join("\n")}".red
+    end
+    return db
+  end
+end
+
 options = OptionParser.parse(ARGV)
+db      = Database.create(options.db_path)
