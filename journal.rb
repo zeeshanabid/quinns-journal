@@ -190,7 +190,7 @@ when "log"
   db.insert_log(options.name, options.duration, options.reason)
 when "list"
   db.list_logs.each do |log|
-    puts "#{log[:name]}\t\t#{log[:duration]}\t#{log[:reason]}"
+    puts "#{log[:name]}\t\t#{log[:duration]}\t\"#{log[:reason]}\""
   end
 when "total"
   puts db.total_duration
