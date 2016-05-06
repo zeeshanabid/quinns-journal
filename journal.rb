@@ -44,7 +44,6 @@ end
 
 class OptionParser
   # Simple option parser. No need to use any utiltity class at this point
-  
   def self.parse(args)
     options = OpenStruct.new
     switch  = ARGV.shift
