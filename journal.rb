@@ -163,6 +163,21 @@ DB_TABLE
     end
   end
 
+  HITLIST_LOGS = "SELECT name, SUM(duration) AS duration from Logs GROUP BY name"
+  def hitlist
+    begin
+      hitlist = []
+      @db.execute(HITLIST_LOGS) do |log|
+        hitlist << {name: log[0], duration: log[1]}
+      end
+      return hitlist
+    rescue Exception => e
+      puts "Cannot get hitlist from database...".red
+      puts e.message.red
+      puts "#{e.backtrace.join("\n")}".red
+    end
+  end
+
 end
 
 options = OptionParser.parse(ARGV)
